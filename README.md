@@ -42,7 +42,6 @@ This Agent serves as a personal AI assistant capable of:
 
 ## Main Branches
 - `main` - Stable, production-ready branch.
-- `develop` - Integration branch for new features.
 
 ## Feature Branches (Per Collaborator)
 Each collaborator works on their respective feature branches:
@@ -51,16 +50,6 @@ Each collaborator works on their respective feature branches:
 - `feature/file-processing` - Document uploads, search, embeddings.
 - `feature/frontend-ui` - User interface updates and chat interface.
 - `feature/langchain-tools` - Web search, calculator, code executor.
-
-## Bug Fixes & Hotfixes
-- `fix/auth-token-bug` - Example bug fix.
-- `fix/memory-issue` - Fix conversation memory errors.
-- `hotfix/jwt-security` - Critical security patch.
-
-## Release & Documentation Branches
-- `release/v1.0.0` - First stable release.
-- `docs/api-reference` - API and endpoints documentation.
-- `docs/setup-guide` - Installation and deployment guide.
 
 ## Workflow Example
 1. Create feature branches from `develop` and work on new features.
