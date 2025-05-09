@@ -40,6 +40,27 @@ This Agent serves as a personal AI assistant capable of:
 
 ## PA-Agent Branching Structure
 
+PA-Agent/
+│── main/
+│── develop/
+│── feature/
+│   ├── authentication/
+│   ├── chat-memory/
+│   ├── file-processing/
+│   ├── frontend-ui/
+│   ├── langchain-tools/
+│── fix/
+│   ├── auth-token-bug/
+│   ├── memory-issue/
+│── hotfix/
+│   ├── jwt-security/
+│── release/
+│   ├── v1.0.0/
+│── docs/
+│   ├── api-reference/
+│   ├── setup-guide/
+
+
 ## Main Branches
 - `main` - Stable, production-ready branch.
 - `develop` - Integration branch for new features.
@@ -67,4 +88,6 @@ Each collaborator works on their respective feature branches:
 2. Submit pull requests (PRs) to merge changes back into `develop`.
 3. The `develop` branch undergoes testing and refinement.
 4. Once stable, changes from `develop` are merged into `main`.
+
+
 
