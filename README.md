@@ -38,3 +38,24 @@ This Agent serves as a personal AI assistant capable of:
 ## Optional Enhancements
 - WebSocket-based live chat interface
 
+## Branch Structure
+PA-Agent/
+│── main/                 # Stable, production-ready branch
+│── develop/              # Integration branch for new features
+│── feature/              # Feature branches for development
+│   ├── authentication/   # OAuth2.0, JWT, and user management
+│   ├── chat-memory/      # Multi-turn conversation and memory integration
+│   ├── file-processing/  # Document uploads, search, embeddings
+│   ├── frontend-ui/      # User interface updates and chat interface
+│   ├── langchain-tools/  # Web search, calculator, code executor
+│── fix/                  # Bug fixes
+│   ├── auth-token-bug/   # Example bug fix
+│   ├── memory-issue/     # Fix conversation memory errors
+│── hotfix/               # Urgent bug fixes
+│   ├── jwt-security/     # Critical security patch
+│── release/              # Versioned releases
+│   ├── v1.0.0/           # First stable release
+│── docs/                 # Documentation
+│   ├── api-reference/    # API and endpoints
+│   ├── setup-guide/      # Installation and deployment guide
+
