@@ -40,25 +40,6 @@ This Agent serves as a personal AI assistant capable of:
 
 ## PA-Agent Branching Structure
 
-PA-Agent/
-│── main/
-│── develop/
-│── feature/
-│   ├── authentication/
-│   ├── chat-memory/
-│   ├── file-processing/
-│   ├── frontend-ui/
-│   ├── langchain-tools/
-│── fix/
-│   ├── auth-token-bug/
-│   ├── memory-issue/
-│── hotfix/
-│   ├── jwt-security/
-│── release/
-│   ├── v1.0.0/
-│── docs/
-│   ├── api-reference/
-│   ├── setup-guide/
 
 
 ## Main Branches
