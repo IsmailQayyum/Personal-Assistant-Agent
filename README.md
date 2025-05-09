@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-AgentMind serves as a personal AI assistant capable of:
+This Agent serves as a personal AI assistant capable of:
 - Answering queries using an LLM (e.g., OpenAI)
 - Handling multi-turn conversations with memory and context
 - Searching over user-uploaded documents (PDF, DOCX)
