@@ -36,6 +36,5 @@ AgentMind serves as a personal AI assistant capable of:
 - Tool usage visual feedback
 
 ## Optional Enhancements
-- Vector DB (Chroma or FAISS) for document embeddings and semantic search
 - WebSocket-based live chat interface
 
