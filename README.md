@@ -56,10 +56,9 @@ Each collaborator works on their respective feature branches:
 - `feature/langchain-tools` - Web search, calculator, code executor.
 
 ## Workflow Example
-1. Create feature branches from `develop` and work on new features.
-2. Submit pull requests (PRs) to merge changes back into `develop`.
-3. The `develop` branch undergoes testing and refinement.
-4. Once stable, changes from `develop` are merged into `main`.
+1. Create feature branches from `main` and work on new features.
+2. Submit pull requests (PRs) to merge changes back into `main`.
+
 
 
 
