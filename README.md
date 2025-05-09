@@ -38,24 +38,33 @@ This Agent serves as a personal AI assistant capable of:
 ## Optional Enhancements
 - WebSocket-based live chat interface
 
-## Branch Structure
-PA-Agent/
-│── main/                 # Stable, production-ready branch
-│── develop/              # Integration branch for new features
-│── feature/              # Feature branches for development
-│   ├── authentication/   # OAuth2.0, JWT, and user management
-│   ├── chat-memory/      # Multi-turn conversation and memory integration
-│   ├── file-processing/  # Document uploads, search, embeddings
-│   ├── frontend-ui/      # User interface updates and chat interface
-│   ├── langchain-tools/  # Web search, calculator, code executor
-│── fix/                  # Bug fixes
-│   ├── auth-token-bug/   # Example bug fix
-│   ├── memory-issue/     # Fix conversation memory errors
-│── hotfix/               # Urgent bug fixes
-│   ├── jwt-security/     # Critical security patch
-│── release/              # Versioned releases
-│   ├── v1.0.0/           # First stable release
-│── docs/                 # Documentation
-│   ├── api-reference/    # API and endpoints
-│   ├── setup-guide/      # Installation and deployment guide
+## PA-Agent Branching Structure
+
+## Main Branches
+- `main` - Stable, production-ready branch.
+- `develop` - Integration branch for new features.
+
+## Feature Branches (Per Collaborator)
+Each collaborator works on their respective feature branches:
+- `feature/authentication` - OAuth2.0, JWT, and user management.
+- `feature/chat-memory` - Multi-turn conversation and memory integration.
+- `feature/file-processing` - Document uploads, search, embeddings.
+- `feature/frontend-ui` - User interface updates and chat interface.
+- `feature/langchain-tools` - Web search, calculator, code executor.
+
+## Bug Fixes & Hotfixes
+- `fix/auth-token-bug` - Example bug fix.
+- `fix/memory-issue` - Fix conversation memory errors.
+- `hotfix/jwt-security` - Critical security patch.
+
+## Release & Documentation Branches
+- `release/v1.0.0` - First stable release.
+- `docs/api-reference` - API and endpoints documentation.
+- `docs/setup-guide` - Installation and deployment guide.
+
+## Workflow Example
+1. Create feature branches from `develop` and work on new features.
+2. Submit pull requests (PRs) to merge changes back into `develop`.
+3. The `develop` branch undergoes testing and refinement.
+4. Once stable, changes from `develop` are merged into `main`.
 
