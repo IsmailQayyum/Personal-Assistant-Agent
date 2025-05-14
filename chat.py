@@ -24,11 +24,12 @@ pt = PromptTemplate(
     template='Give a 3 line summary on {topic}',
 )
 
-chain = pt | llm 
-
+chain = pt | llm
 
 from tools import end_chat, load_document, ask_about_document
 agent_tools = [end_chat, load_document, ask_about_document]
+
+
 agent = create_react_agent(llm , agent_tools )
 
 def chat():
@@ -38,6 +39,7 @@ def chat():
             'Greet user in the beggining'
             'You talk to your user, and give him appropriate reply.'
             'End the chat if you feel like user has ended the chat.'
+
             'You can load a document using the "load_document" tool if the user provides a file path.' 
             'Then, you can use the "ask_about_document" tool to answer questions based on that document.'
         )    )
@@ -56,8 +58,11 @@ def chat():
         if tools.ec:
             break
         messages.append(AIMessage(content=(response['messages'][-1].content)))
-
-
+    # print('Covo=======--',messages)
+    # print('specific====', messages[0])
+    # print('specific2====', messages[1])
+    # print('000000',messages)
+    # print('Roleee:',messages[0].role )
 if __name__ == '__main__':
     chat()
-
+   
