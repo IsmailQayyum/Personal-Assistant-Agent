@@ -68,4 +68,4 @@ def chat():
     # print('Roleee:',messages[0].role )
 if __name__ == '__main__':
     chat()
-   
+
