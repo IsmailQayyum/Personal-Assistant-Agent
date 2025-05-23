@@ -61,7 +61,11 @@ def chat():
         if tools.ec:
             break
         messages.append(AIMessage(content=(response['messages'][-1].content)))
-
-
+    # print('Covo=======--',messages)
+    # print('specific====', messages[0])
+    # print('specific2====', messages[1])
+    # print('000000',messages)
+    # print('Roleee:',messages[0].role )
 if __name__ == '__main__':
     chat()
+
