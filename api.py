@@ -1,9 +1,20 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel 
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
 import tools
 import chat
+
 app = FastAPI()
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"],  # Allows all headers
+)
 
 class ChatMessage(BaseModel):
     role: str 
@@ -38,7 +49,7 @@ async def chat_endpoint(request: ChatRequest):
         response = chat.agent.invoke({'messages': langchain_messages})
     except Exception as e:
         return ChatResponse(
-            message=f'An error occured: {str(e)}',
+            message=f'An error occurred: {str(e)}',
             conversation_ended=True
         )
     assistant_message = response['messages'][-1].content 

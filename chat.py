@@ -9,15 +9,30 @@ from langgraph.prebuilt import create_react_agent
 load_dotenv() 
 
 ak = os.getenv('AZURE_OPENAI_API_KEY')
-av= os.getenv('API_VERSION')
+av = os.getenv('API_VERSION')
 ep = os.getenv('ENDPOINT_URL')
 dn = os.getenv('DEPLOYMENT_NAME')
 
+# Debug prints
+print("Configuration check:")
+print(f"API Version: {av}")
+print(f"Endpoint URL: {ep}")
+print(f"Deployment Name: {dn}")
+print(f"API Key present: {'Yes' if ak else 'No'}")
+
+if not all([ak, av, ep, dn]):
+    raise ValueError("Missing required environment variables. Please check your .env file.")
+
+# Remove trailing slash from endpoint if present
+if ep and ep.endswith('/'):
+    ep = ep[:-1]
+
 llm = AzureChatOpenAI(
-    api_key=ak , 
-    api_version=av , 
+    api_key=ak,
+    api_version=av,
     azure_endpoint=ep,
     azure_deployment=dn,
+    temperature=0.7,
 )
 
 pt = PromptTemplate(
@@ -29,20 +44,19 @@ chain = pt | llm
 from tools import end_chat, load_document, ask_about_document
 agent_tools = [end_chat, load_document, ask_about_document]
 
-
-agent = create_react_agent(llm , agent_tools )
+agent = create_react_agent(llm, agent_tools)
 
 def chat():
     messages = [
         SystemMessage(content=(
             'You are a very helpful personal assistant. '
-            'Greet user in the beggining'
+            'Greet user in the beginning. '
             'You talk to your user, and give him appropriate reply.'
             'End the chat if you feel like user has ended the chat.'
 
             'You can load a document using the "load_document" tool if the user provides a file path.' 
             'Then, you can use the "ask_about_document" tool to answer questions based on that document.'
-        )    )
+        ))
     ]
 
     import tools 
