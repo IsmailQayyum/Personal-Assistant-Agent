@@ -15,7 +15,7 @@ llm = AzureChatOpenAI(
     azure_deployment=dn,
 )
 
-async def get_llm():
+def get_llm():
     load_dotenv() 
     ak = os.getenv('AZURE_OPENAI_API_KEY')
     av = os.getenv('API_VERSION')
