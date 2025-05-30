@@ -72,9 +72,22 @@ class _ChatScreenState extends State<ChatScreen> {
                         constraints: BoxConstraints(
                           maxWidth: MediaQuery.of(context).size.width * 0.75,
                         ),
-                        child: MarkdownBody(
-                          data: message.content,
-                          selectable: true,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if (message.content.startsWith('load_document'))
+                              const Text(
+                                '📄 Processing document...',
+                                style: TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            MarkdownBody(
+                              data: message.content,
+                              selectable: true,
+                            ),
+                          ],
                         ),
                       ),
                     );
@@ -84,9 +97,24 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
           ),
           if (context.watch<ChatProvider>().isLoading)
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: CircularProgressIndicator(),
+            Container(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const CircularProgressIndicator(),
+                  const SizedBox(width: 16),
+                  Text(
+                    context.watch<ChatProvider>().currentDocument != null
+                        ? 'Processing ${context.watch<ChatProvider>().currentDocument}...'
+                        : 'Thinking...',
+                    style: const TextStyle(
+                      fontStyle: FontStyle.italic,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ],
+              ),
             ),
           Container(
             padding: const EdgeInsets.all(8),

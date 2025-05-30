@@ -12,6 +12,11 @@
 .swiftpm/
 migrate_working_dir/
 
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
 # IntelliJ related
 *.iml
 *.ipr
@@ -43,3 +48,6 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Project specific
+/uploads/

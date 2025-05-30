@@ -14,14 +14,14 @@ ep = os.getenv('ENDPOINT_URL')
 dn = os.getenv('DEPLOYMENT_NAME')
 
 # Debug prints
-print("Configuration check:")
-print(f"API Version: {av}")
-print(f"Endpoint URL: {ep}")
-print(f"Deployment Name: {dn}")
-print(f"API Key present: {'Yes' if ak else 'No'}")
+# print("Configuration check:")
+# print(f"API Version: {av}")
+# print(f"Endpoint URL: {ep}")
+# print(f"Deployment Name: {dn}")
+# print(f"API Key present: {'Yes' if ak else 'No'}")
 
-if not all([ak, av, ep, dn]):
-    raise ValueError("Missing required environment variables. Please check your .env file.")
+# if not all([ak, av, ep, dn]):
+#     raise ValueError("Missing required environment variables. Please check your .env file.")
 
 # Remove trailing slash from endpoint if present
 if ep and ep.endswith('/'):
@@ -41,8 +41,11 @@ pt = PromptTemplate(
 
 chain = pt | llm
 
-from tools import end_chat, load_document, ask_about_document
-agent_tools = [end_chat, load_document, ask_about_document]
+# from tools import end_chat, load_document, ask_about_document
+# agent_tools = [end_chat, load_document, ask_about_document]
+
+from tools import end_chat, load_document, ask_about_document, ask_about_images
+agent_tools = [end_chat, load_document, ask_about_document, ask_about_images]
 
 agent = create_react_agent(llm, agent_tools)
 
@@ -51,12 +54,15 @@ def chat():
         SystemMessage(content=(
             'You are a very helpful personal assistant. '
             'Greet user in the beginning. '
-            'You talk to your user, and give him appropriate reply.'
-            'End the chat if you feel like user has ended the chat.'
-
-            'You can load a document using the "load_document" tool if the user provides a file path.' 
-            'Then, you can use the "ask_about_document" tool to answer questions based on that document.'
-        ))
+            'You talk to your user, and give them appropriate replies. '
+            'End the chat if you feel like user has ended the chat. '
+            'You can load a document using the "load_document" tool if the user provides a file path. ' 
+            'Then, you can use the "ask_about_document" tool to answer questions based on document text. '
+            'For PDF documents with images, you can use the "ask_about_images" tool to answer questions '
+            'about the visual content of the images in the document. '
+            'When a user loads a PDF, mention to them whether images were found and that they can '
+            'ask questions about both the text and image content.'
+        )    )
     ]
 
     import tools 

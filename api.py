@@ -1,9 +1,11 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel 
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
 import tools
 import chat
+import os
+import shutil
 
 app = FastAPI()
 
@@ -30,6 +32,21 @@ class ChatResponse(BaseModel):
 @app.get('/')
 async def greet():
     return {'Hello': 'Go to /chat to chat with agent'}
+
+@app.post("/upload")
+async def upload_file(file: UploadFile = File(...)):
+    try:
+        # Create uploads directory if it doesn't exist
+        os.makedirs("uploads", exist_ok=True)
+        
+        # Save the file
+        file_path = os.path.join("uploads", file.filename)
+        with open(file_path, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
+        
+        return {"message": "File uploaded successfully", "filename": file.filename}
+    except Exception as e:
+        return {"error": str(e)}
 
 @app.post("/chat")
 async def chat_endpoint(request: ChatRequest):

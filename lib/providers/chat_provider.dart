@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:file_picker/file_picker.dart';
+import 'package:path/path.dart' as path;
 
 class Message {
   final String content;
@@ -92,16 +94,45 @@ class ChatProvider with ChangeNotifier {
     try {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
-        allowedExtensions: ['pdf', 'docx'],
+        allowedExtensions: ['pdf'],
+        withData: true, // This ensures we get the file bytes
       );
 
       if (result != null) {
-        _currentDocument = result.files.single.name;
+        final file = result.files.single;
+        _currentDocument = file.name;
         notifyListeners();
-        
-        // Here you would typically upload the file to your backend
-        // For now, we'll just send a message about the document
-        await sendMessage('I have uploaded a document: $_currentDocument');
+
+        // Create a multipart request
+        var request = http.MultipartRequest(
+          'POST',
+          Uri.parse('$baseUrl/upload'),
+        );
+
+        // Add the file to the request
+        request.files.add(
+          http.MultipartFile.fromBytes(
+            'file',
+            file.bytes!,
+            filename: file.name,
+          ),
+        );
+
+        // Send the request
+        var streamedResponse = await request.send();
+        var response = await http.Response.fromStream(streamedResponse);
+
+        if (response.statusCode == 200) {
+          // Send message to load the document
+          await sendMessage('load_document uploads/${file.name}');
+        } else {
+          _messages.add(Message(
+            content: 'Error uploading document: ${response.body}',
+            isUser: false,
+            timestamp: DateTime.now(),
+          ));
+          notifyListeners();
+        }
       }
     } catch (e) {
       _messages.add(Message(
