@@ -37,22 +37,29 @@ class DocumentService:
         """Extract images from PDF and return them with their page numbers."""
         images = []
         try:
+            print(f"Opening PDF: {pdf_path}")
             pdf_document = fitz.open(pdf_path)
             
             for page_num, page in enumerate(pdf_document):
+                print(f"Processing page {page_num + 1}")
                 image_list = page.get_images(full=True)
+                print(f"Found {len(image_list)} images on page {page_num + 1}")
                 
                 for img_index, img in enumerate(image_list):
-                    xref = img[0]
-                    base_image = pdf_document.extract_image(xref)
-                    image_bytes = base_image["image"]
-                    
-                    image = Image.open(io.BytesIO(image_bytes))
-                    images.append((image, page_num + 1))
-                    
+                    try:
+                        xref = img[0]
+                        base_image = pdf_document.extract_image(xref)
+                        image_bytes = base_image["image"]
+                        
+                        image = Image.open(io.BytesIO(image_bytes))
+                        images.append((image, page_num + 1))
+                        print(f"Successfully extracted image {img_index + 1} from page {page_num + 1}")
+                    except Exception as img_error:
+                        print(f"Error extracting image {img_index + 1} from page {page_num + 1}: {str(img_error)}")
+                        
             return images
         except Exception as e:
-            print(f"Error extracting images: {e}")
+            print(f"Error extracting images: {str(e)}")
             return []
 
     def get_image_description(self, image: Image.Image) -> str:
@@ -157,6 +164,10 @@ class DocumentService:
     def load_document(self, path: str) -> str:
         """Loads a document from the given path and processes text and images."""
         try:
+            # Ensure the path exists
+            if not os.path.exists(path):
+                return f"Error: File '{path}' does not exist."
+                
             ext = os.path.splitext(path)[1].lower()
             
             if ext == '.txt':
@@ -165,19 +176,23 @@ class DocumentService:
                 return f"Text document '{path}' loaded successfully."
                 
             elif ext == '.pdf':
-                with open(path, 'rb') as f:
-                    reader = PyPDF2.PdfReader(f)
-                    self.doc_text = ''
-                    for page in reader.pages:
-                        self.doc_text += page.extract_text() or ''
-                
-                self.image_descriptions = []
-                image_result = self.process_pdf_images(path)
-                
-                if image_result["status"] == "No images found in the PDF":
-                    return f"Document '{path}' loaded successfully."
-                else:
-                    return f"Document '{path}' loaded successfully. Found and processed {image_result['images_processed']} images."
+                try:
+                    with open(path, 'rb') as f:
+                        reader = PyPDF2.PdfReader(f)
+                        self.doc_text = ''
+                        for page in reader.pages:
+                            self.doc_text += page.extract_text() or ''
+                    
+                    self.image_descriptions = []
+                    image_result = self.process_pdf_images(path)
+                    
+                    if image_result["status"] == "No images found in the PDF":
+                        return f"Document '{path}' loaded successfully."
+                    else:
+                        return f"Document '{path}' loaded successfully. Found and processed {image_result['images_processed']} images."
+                except Exception as pdf_error:
+                    print(f"PDF processing error: {str(pdf_error)}")
+                    return f"Error processing PDF: {str(pdf_error)}"
             else:
                 return "Unsupported file format. Only .txt and .pdf files are supported."
                 
@@ -185,7 +200,8 @@ class DocumentService:
                 return "The document was loaded, but the text content appears to be empty or unreadable."
                 
         except Exception as e:
-            return f"Error loading document: {e}"
+            print(f"Document loading error: {str(e)}")
+            return f"Error loading document: {str(e)}"
 
     def ask_about_document(self, question: str) -> str:
         """Answers questions about the loaded document's text content."""
