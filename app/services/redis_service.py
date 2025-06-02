@@ -10,27 +10,24 @@ from app.services.prompt_service import get_system_prompt
 from app.services.agent_service import agent
 REDIS_URL = "redis://localhost:6379"
 
+
 def get_redis_response(chat_request:ChatRequest):
-
-    prompt = ChatPromptTemplate.from_messages(
-        [
-            ("system", get_system_prompt()),
-            MessagesPlaceholder(variable_name="history"),
-            ("human", "{input}"),
-        ]
-    )
-
-    chain = prompt | get_llm()
-
-    chain_with_history = RunnableWithMessageHistory(
-        chain, get_redis_history, input_messages_key="input", history_messages_key="history"
-    )
-  
-    response1 = chain_with_history.invoke(
-        {"input": chat_request.message},
-        config={"configurable": {"session_id": chat_request.session_id}},
-    )
-    return ChatResponse(response=response1.content)
+    try:
+        history = get_redis_history(chat_request.session_id)
+        history.add_user_message(chat_request.message)
+        agent_response = agent.process_message(chat_request.message)
+        history.add_ai_message(agent_response)
+        return ChatResponse(response=agent_response)
+        
+    except Exception as e:
+        print(f"Error in Redis service: {str(e)}")
+        try:
+            response = agent.process_message(chat_request.message)
+            return ChatResponse(response=response)
+        except Exception:
+            return ChatResponse(
+                response="I'm sorry, I encountered an error processing your request."
+            )
 
 def get_redis_history(session_id: str) -> BaseChatMessageHistory:
     return RedisChatMessageHistory(session_id, redis_url=REDIS_URL)
