@@ -28,5 +28,3 @@ def get_llm():
     azure_deployment=dn,
     )
     return llm 
-
-# async def get_llm_response(prompt)

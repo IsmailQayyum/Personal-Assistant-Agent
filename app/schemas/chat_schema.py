@@ -2,6 +2,7 @@ from pydantic import BaseModel
 from langchain_core.messages import SystemMessage, AIMessage, HumanMessage
 class ChatRequest(BaseModel):
     message: str 
+    session_id: str
 
 class ChatResponse(BaseModel):
     response: str 

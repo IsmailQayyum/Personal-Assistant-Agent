@@ -1,7 +1,8 @@
 from fastapi import FastAPI
-from .routers import chat_router
 from fastapi.staticfiles import StaticFiles
 import os
+from app.routers import chat_router
+
 
 app = FastAPI()
 
