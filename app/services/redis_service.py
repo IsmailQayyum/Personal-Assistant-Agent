@@ -7,6 +7,7 @@ from langchain_redis import RedisChatMessageHistory
 from app.services.llm_sevice import get_llm
 from app.schemas.chat_schema import ChatRequest, ChatResponse
 from app.services.prompt_service import get_system_prompt
+from app.services.agent_service import agent
 REDIS_URL = "redis://localhost:6379"
 
 def get_redis_response(chat_request:ChatRequest):

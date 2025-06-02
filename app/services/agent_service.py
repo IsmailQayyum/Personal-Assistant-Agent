@@ -1,9 +1,9 @@
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 from langgraph.prebuilt import create_react_agent
-from .document_service import DocumentService
-from .document_tools import end_chat, load_document, ask_about_document, ask_about_images
-from .llm_sevice import get_llm
-from .prompt_service import SYSTEM_PROMT
+from app.services.document_service import DocumentService
+from app.services.document_tools import end_chat, load_document, ask_about_document, ask_about_images
+from app.services.llm_sevice import get_llm
+from app.services.prompt_service import get_system_prompt
 
 class AgentService:
     def __init__(self):
@@ -19,7 +19,7 @@ class AgentService:
 
     def _initialize_messages(self):
         """Initialize the system message."""
-        return [SystemMessage(content=SYSTEM_PROMT)]
+        return [SystemMessage(content=get_system_prompt())]
 
     def process_message(self, user_message: str):
         """Process a user message and return the agent's response."""
@@ -29,5 +29,5 @@ class AgentService:
         self.messages.append(AIMessage(content=assistant_message))
         return assistant_message
 
-# Create a singleton instance
-agent_service = AgentService()
+# # Create a singleton instance
+agent = AgentService()
