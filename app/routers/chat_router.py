@@ -9,7 +9,7 @@ router = APIRouter(
     tags= ['chat']
 )
 
-@router.post('/'  )
+@router.post('')
 async def chat_endpoint(request: ChatRequest,messages:ChatMessages = Depends(build_chat_messages)):
     response = await chat_handler.handle_chat_message(request=request,messages=messages)
     return {'response': response.response,
