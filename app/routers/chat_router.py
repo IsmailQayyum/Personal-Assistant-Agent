@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, Header
-from ..schemas.chat_schema import ChatRequest, ChatResponse, ChatMessages
-from ..handlers import chat_handler
+from app.schemas.chat_schema import ChatRequest, ChatResponse, ChatMessages
+from app.handlers import chat_handler
 from langchain_core.messages import SystemMessage, AIMessage, HumanMessage
-from ..services.prompt_service import build_chat_messages 
-from ..services.redis_service import get_redis_response
+from app.services.prompt_service import build_chat_messages 
+from app.services.redis_service import get_redis_response
 router = APIRouter(
     prefix='/chat',
     tags= ['chat']
